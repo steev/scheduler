@@ -1,0 +1,9 @@
+[Unit]
+Description=Pop Upgrade Daemon
+
+[Service]
+ExecStart=/usr/bin/process-scheduler-daemon
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

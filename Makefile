@@ -39,6 +39,7 @@ vendor:
 
 install: all
 	install -Dm04755 "target/$(TARGET)/$(DAEMON)" "$(DESTDIR)$(prefix)/bin/$(DAEMON)"
+	install -Dm0644 "data/$(DAEMON).service" "$(DESTDIR)/lib/systemd/system/$(DAEMON).service"
 
 target/$(TARGET)/$(DAEMON): $(SRC_LIB) $(SRC_DAEMON)
 ifeq ($(VENDORED),1)
