@@ -1,0 +1,11 @@
+[package]
+name = "process-scheduler"
+version = "0.1.0"
+description = "Process scheduling capabilities for UNIX-like systems"
+authors = ["Michael Aaron Murphy <mmstick@pm.me>"]
+edition = "2018"
+
+[dependencies]
+errno = "0.2.4"
+libc = "0.2.54"
+
