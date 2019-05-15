@@ -1,12 +1,13 @@
+mod rules;
+
 use indexmap::IndexMap;
 use regex::Regex;
 use std::convert::TryFrom;
 use std::path::Path;
 use std::str::FromStr;
+use std::time::SystemTime;
 use std::{fs, io};
 use users::User;
-
-mod rules;
 
 pub use self::rules::*;
 
@@ -26,6 +27,7 @@ pub enum ConfigError {
 pub struct Config {
     pub entities: Vec<Entity>,
     pub rules: Vec<Rule>,
+    pub mtime: Option<SystemTime>,
 }
 
 /// The key to a rule, which contains the regular expression that the rule was built from,
@@ -52,7 +54,7 @@ impl Config {
         process_owner: u32,
         users: &'a [User],
     ) -> impl Iterator<Item = &'a Rule> + 'a {
-        let &Self { ref entities, ref rules } = self;
+        let &Self { ref entities, ref rules, .. } = self;
 
         entities
             .iter()
@@ -105,7 +107,7 @@ impl FromStr for Config {
 
         rules.shrink_to_fit();
 
-        Ok(Config { entities, rules })
+        Ok(Config { entities, rules, mtime: None })
     }
 }
 

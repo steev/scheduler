@@ -2,7 +2,7 @@
 Description=Pop Upgrade Daemon
 
 [Service]
-ExecStart=/usr/bin/process-scheduler-daemon
+ExecStart=/usr/bin/process-scheduler
 Restart=on-failure
 
 [Install]

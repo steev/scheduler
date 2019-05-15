@@ -7,7 +7,7 @@ A process scheduling daemon for unix systems, with a TOML configuration format, 
 This is a complete list of features that have been, or are planned to be, implemented.
 
 - [x] A simple TOML configuration file for controlling the behavior of the daemon
-- [ ] Reloads the configuration when the configuration file has been modified
+- [x] Reloads the configuration when the configuration file has been modified
 - [x] Monitors PIDs and renices them shortly after they are created.
 - [x] Rules are defined with regular expressions
 - [x] Rules are applied either by the name or owner of the new process

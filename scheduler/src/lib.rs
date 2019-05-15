@@ -11,13 +11,19 @@ macro_rules! idtype {
         pub struct $name(libc::pid_t);
 
         impl $name {
-            pub fn new(id: u64) -> Self { $name(id as libc::pid_t) }
+            pub fn new(id: u64) -> Self {
+                $name(id as libc::pid_t)
+            }
 
-            pub fn current() -> Self { Self(0) }
+            pub fn current() -> Self {
+                Self(0)
+            }
         }
 
         impl From<$name> for libc::pid_t {
-            fn from(id: $name) -> Self { id.0 }
+            fn from(id: $name) -> Self {
+                id.0
+            }
         }
     };
 }

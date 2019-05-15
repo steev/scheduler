@@ -1,7 +1,7 @@
 prefix ?= /usr/local
 sysconfdir ?= /etc
 
-DAEMON=process-scheduler-daemon
+DAEMON=process-scheduler
 
 SRC_DAEMON = Makefile Cargo.lock Cargo.toml $(shell find src -type f -wholename '*src/*.rs')
 SRC_LIB = scheduler/Cargo.toml $(shell find scheduler/src -type f -wholename '*src/*.rs')
@@ -40,6 +40,14 @@ vendor:
 install: all
 	install -Dm04755 "target/$(TARGET)/$(DAEMON)" "$(DESTDIR)$(prefix)/bin/$(DAEMON)"
 	install -Dm0644 "data/$(DAEMON).service" "$(DESTDIR)/lib/systemd/system/$(DAEMON).service"
+
+uninstall:
+	rm "$(DESTDIR)$(prefix)/bin/$(DAEMON)" "$(DESTDIR)/lib/systemd/system/$(DAEMON).service"
+
+systemd-enable:
+	systemctl daemon-reload
+	systemctl enable $(DAEMON)
+	systemctl is-active $(DAEMON) && systemctl restart $(DAEMON) || systemctl start $(DAEMON)
 
 target/$(TARGET)/$(DAEMON): $(SRC_LIB) $(SRC_DAEMON)
 ifeq ($(VENDORED),1)

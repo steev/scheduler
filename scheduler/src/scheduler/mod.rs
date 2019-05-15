@@ -1,29 +1,30 @@
 use crate::{Id, Process, ProcessGroup, User};
 use core::{convert::TryFrom, mem};
 
-mod cpuset;
+// mod cpuset;
 mod errors;
 mod parameters;
 mod policy;
 
-pub use self::{cpuset::*, errors::*, parameters::*, policy::*};
+// pub use self::cpuset::*;
+pub use self::{errors::*, parameters::*, policy::*};
 
 pub trait Scheduling: Copy + Into<libc::pid_t> {
-    fn get_affinity(&self) -> Result<CpuSet, SchedulerError> {
-        let mut cpuset = CpuSet::default();
-        let result = unsafe {
-            libc::sched_getaffinity(
-                (*self).into(),
-                mem::size_of::<libc::cpu_set_t>() as libc::size_t,
-                &mut cpuset as &mut libc::cpu_set_t,
-            )
-        };
-
-        match result {
-            -1 => Err(SchedulerError::from_errno()),
-            _ => Ok(cpuset),
-        }
-    }
+    // fn get_affinity(&self) -> Result<CpuSet, SchedulerError> {
+    //     let mut cpuset = CpuSet::default();
+    //     let result = unsafe {
+    //         libc::sched_getaffinity(
+    //             (*self).into(),
+    //             mem::size_of::<libc::cpu_set_t>() as libc::size_t,
+    //             cpuset.as_mut(),
+    //         )
+    //     };
+    //
+    //     match result {
+    //         -1 => Err(SchedulerError::from_errno()),
+    //         _ => Ok(cpuset),
+    //     }
+    // }
 
     fn get_parameters(&self) -> Result<Parameters, SchedulerError> {
         let mut parameters = Parameters::default();
@@ -45,20 +46,20 @@ pub trait Scheduling: Copy + Into<libc::pid_t> {
         }
     }
 
-    fn set_affinity(&self, cpuset: &CpuSet) -> Result<(), SchedulerError> {
-        let result = unsafe {
-            libc::sched_setaffinity(
-                (*self).into(),
-                mem::size_of::<libc::cpu_set_t>() as libc::size_t,
-                &cpuset as &libc::cpu_set_t,
-            )
-        };
-
-        match result {
-            -1 => Err(SchedulerError::from_errno()),
-            _ => Ok(()),
-        }
-    }
+    // fn set_affinity(&self, cpuset: &CpuSet) -> Result<(), SchedulerError> {
+    //     let result = unsafe {
+    //         libc::sched_setaffinity(
+    //             (*self).into(),
+    //             mem::size_of::<libc::cpu_set_t>() as libc::size_t,
+    //             cpuset.as_ptr(),
+    //         )
+    //     };
+    //
+    //     match result {
+    //         -1 => Err(SchedulerError::from_errno()),
+    //         _ => Ok(()),
+    //     }
+    // }
 
     fn set_parameters(&self, parameters: Parameters) -> Result<(), SchedulerError> {
         match unsafe { libc::sched_setparam((*self).into(), &parameters as &libc::sched_param) } {

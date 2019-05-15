@@ -1,4 +1,4 @@
-use process_scheduler::Policy;
+use scheduler::Policy;
 use std::{convert::TryFrom, str::FromStr};
 
 #[derive(Debug, Error)]

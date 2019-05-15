@@ -1,5 +1,5 @@
 [package]
-name = "process-scheduler-daemon"
+name = "process-scheduler"
 version = "0.1.0"
 description = "Process scheduling daemon for UNIX-like systems"
 authors = ["Michael Aaron Murphy <mmstick@pm.me>"]
@@ -17,7 +17,7 @@ err-derive = "0.1.5"
 indexmap = { version = "1.0.2", features = [ "serde-1" ]}
 libc = "0.2.54"
 pidwatcher = { path = "pidwatcher" }
-process-scheduler = { path = "scheduler" }
+scheduler = { path = "scheduler" }
 regex = "1.1.6"
 serde = "1.0.91"
 serde_derive = "1.0.91"

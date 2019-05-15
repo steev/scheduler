@@ -6,9 +6,16 @@ extern crate serde_derive;
 mod config;
 
 use self::config::{Config, Rule};
-use pidwatcher::PidWatcher;
-use process_scheduler::*;
-use std::{ffi::OsStr, path::Path, process::exit, thread, time::Duration};
+use ::pidwatcher::PidWatcher;
+use ::scheduler::*;
+use std::{
+    ffi::OsStr,
+    fs,
+    path::Path,
+    process::exit,
+    thread,
+    time::{Duration, SystemTime},
+};
 
 const DEFAULT_CONFIG_PATH: &str = "/etc/default/process-scheduler/rules.toml";
 const USER_CONFIG_PATH: &str = "/etc/process-scheduler/rules.toml";
@@ -24,7 +31,7 @@ fn main() {
     // Launch daemon with a low priority.
     Process::current().set_priority(19);
 
-    let config = load_config();
+    let mut config = load_config();
     let users = unsafe { users::all_users().collect::<Vec<_>>() };
 
     // Keeps track of what PIDs have been spawned over time.
@@ -48,6 +55,23 @@ fn main() {
         });
 
         thread::sleep(Duration::from_millis(POLL_RATE_MS));
+
+        let update_config = config.mtime.as_mut().map_or(false, |reference_time| {
+            let current_time = get_config_time();
+            let requires_update = *reference_time < current_time;
+
+            if requires_update {
+                *reference_time = current_time;
+            }
+
+            requires_update
+        });
+
+        if update_config {
+            println!("reloading config");
+            config = load_config();
+            watcher.reset();
+        }
     }
 }
 
@@ -57,7 +81,10 @@ fn load_config() -> Config {
     if Path::new(USER_CONFIG_PATH).exists() {
         eprintln!("loading user config");
         match Config::from_path(USER_CONFIG_PATH) {
-            Ok(config) => return config,
+            Ok(mut config) => {
+                config.mtime = Some(get_config_time());
+                return config;
+            }
             Err(why) => {
                 eprintln!("failed to load config at {}: {}", USER_CONFIG_PATH, why);
             }
@@ -73,6 +100,13 @@ fn load_config() -> Config {
     };
 
     Config::from_path(path).expect("default config not found")
+}
+
+fn get_config_time() -> SystemTime {
+    fs::metadata(USER_CONFIG_PATH)
+        .expect("failed to get metadata from config")
+        .modified()
+        .expect("failed to get mtime from config")
 }
 
 /// Applies every available parameter of a rule to a process.
