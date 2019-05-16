@@ -12,9 +12,9 @@ pub enum RuleError {
 /// A rule defines what parameters will be set when triggered on a process.
 #[derive(Default)]
 pub struct Rule {
-    pub by: By,
+    pub by:       By,
     pub priority: Option<i32>,
-    pub policy: Option<Policy>,
+    pub policy:   Option<Policy>,
 }
 
 impl TryFrom<RawRule> for Rule {
@@ -22,12 +22,12 @@ impl TryFrom<RawRule> for Rule {
 
     fn try_from(raw_rule: RawRule) -> Result<Self, Self::Error> {
         Ok(Rule {
-            by: match raw_rule.by {
+            by:       match raw_rule.by {
                 Some(by) => By::from_str(&by).map_err(|_| RuleError::InvalidBy(by))?,
                 None => By::Process,
             },
             priority: raw_rule.priority,
-            policy: match raw_rule.policy {
+            policy:   match raw_rule.policy {
                 Some(policy_str) => match policy_str.parse::<Policy>() {
                     Ok(policy) => Some(policy),
                     Err(_) => return Err(RuleError::InvalidPolicy(policy_str)),
@@ -59,9 +59,7 @@ pub enum By {
 }
 
 impl Default for By {
-    fn default() -> Self {
-        By::Process
-    }
+    fn default() -> Self { By::Process }
 }
 
 impl FromStr for By {

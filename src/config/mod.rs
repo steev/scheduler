@@ -2,11 +2,7 @@ mod rules;
 
 use indexmap::IndexMap;
 use regex::Regex;
-use std::convert::TryFrom;
-use std::path::Path;
-use std::str::FromStr;
-use std::time::SystemTime;
-use std::{fs, io};
+use std::{convert::TryFrom, fs, io, path::Path, str::FromStr, time::SystemTime};
 use users::User;
 
 pub use self::rules::*;
@@ -26,17 +22,17 @@ pub enum ConfigError {
 /// Stores the user-defined settings for managing processes by a set of rules.
 pub struct Config {
     pub entities: Vec<Entity>,
-    pub rules: Vec<Rule>,
-    pub mtime: Option<SystemTime>,
+    pub rules:    Vec<Rule>,
+    pub mtime:    Option<SystemTime>,
 }
 
 /// The key to a rule, which contains the regular expression that the rule was built from,
 /// the target by which the rule will be matched against, and the location of the rule that
 /// this entity points to.
 pub struct Entity {
-    by: By,
+    by:   By,
     expr: Regex,
-    id: u32,
+    id:   u32,
 }
 
 impl Config {
@@ -91,9 +87,9 @@ impl FromStr for Config {
             let id = rules.len();
 
             entities.push(Entity {
-                by: rule.by,
+                by:   rule.by,
                 expr: Regex::new(&expr).map_err(ConfigError::Regex)?,
-                id: id as u32,
+                id:   id as u32,
             });
 
             rules.push(rule);

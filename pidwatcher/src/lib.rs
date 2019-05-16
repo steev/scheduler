@@ -10,15 +10,13 @@ pub enum PidEvent {
 
 #[derive(Default)]
 pub struct PidWatcher {
-    seen: HashSet<pid_t>,
-    missing: Vec<pid_t>,
+    seen:      HashSet<pid_t>,
+    missing:   Vec<pid_t>,
     processes: Vec<Process>,
 }
 
 impl PidWatcher {
-    pub fn reset(&mut self) {
-        self.seen.clear();
-    }
+    pub fn reset(&mut self) { self.seen.clear(); }
 
     pub fn scan<T, F: FnMut(&[Process]) -> T>(&mut self, mut func: F) -> T {
         self.processes.clear();
