@@ -1,5 +1,5 @@
 [Unit]
-Description=Pop Upgrade Daemon
+Description=Process Scheduler
 
 [Service]
 ExecStart=/usr/bin/process-scheduler
