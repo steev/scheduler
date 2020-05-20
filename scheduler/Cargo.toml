@@ -6,6 +6,6 @@ authors = ["Michael Aaron Murphy <mmstick@pm.me>"]
 edition = "2018"
 
 [dependencies]
-errno = "0.2.4"
-libc = "0.2.54"
-bitvec = "0.11.1"
+errno = "0.2.5"
+libc = "0.2.70"
+bitvec = "0.17.4"

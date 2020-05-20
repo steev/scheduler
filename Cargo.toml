@@ -13,13 +13,13 @@ categories = ["os::unix-apis"]
 members = [ "pidwatcher", "scheduler" ]
 
 [dependencies]
-err-derive = "0.1.5"
-indexmap = { version = "1.0.2", features = [ "serde-1" ]}
-libc = "0.2.54"
+err-derive = "0.2.4"
+indexmap = { version = "1.3.2", features = [ "serde-1" ]}
+libc = "0.2.70"
 pidwatcher = { path = "pidwatcher" }
 scheduler = { path = "scheduler" }
-regex = "1.1.6"
-serde = "1.0.91"
-serde_derive = "1.0.91"
-toml = "0.5.0"
-users = "0.9.1"
+regex = "1.3.7"
+serde = "1.0.110"
+serde_derive = "1.0.110"
+toml = "0.5.6"
+users = "0.10.0"

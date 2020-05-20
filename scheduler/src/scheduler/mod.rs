@@ -9,11 +9,11 @@ mod policy;
 
 // pub use self::cpuset::*;
 pub use self::{errors::*, parameters::*, policy::*};
-use bitvec::prelude::LittleEndian;
+use bitvec::order::Lsb0;
 
 pub trait Scheduling: Copy + Into<libc::pid_t> {
-    fn get_affinity(&self) -> Result<BitVec<LittleEndian, c_ulong>, SchedulerError> {
-        let mut set = bitvec![LittleEndian, c_ulong; 0; 2048];
+    fn get_affinity(&self) -> Result<BitVec<Lsb0, c_ulong>, SchedulerError> {
+        let mut set = bitvec![Lsb0, c_ulong; 0; 2048];
 
         let result = unsafe {
             let slice: &mut [c_ulong] = set.as_mut();

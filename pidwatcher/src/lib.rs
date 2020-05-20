@@ -1,5 +1,5 @@
 use libc::pid_t;
-use procfs::{self, Process};
+use procfs::process::Process;
 use std::collections::HashSet;
 
 #[derive(Copy, Clone, Debug, Hash, Eq, PartialEq)]
@@ -20,7 +20,7 @@ impl PidWatcher {
 
     pub fn scan<T, F: FnMut(&[Process]) -> T>(&mut self, mut func: F) -> T {
         self.processes.clear();
-        let processes = procfs::all_processes();
+        let processes = procfs::process::all_processes().unwrap();
 
         // Check for missing PIDs.
         for value in &self.seen {
