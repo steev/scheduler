@@ -5,13 +5,13 @@ avahi = { by = "owner", priority = 20 }
 gdm = { by = "owner", priority = -10 }
 
 # Desktop applications
-"^(atom|code|firefox|mpv)" = { priority = -5 }
+"^(atom|code|firefox|mpv|chromium|chrome)" = { priority = -5 }
 
 # Desktop-critical services
-"^(gdm|gnome-shell|Xorg)" = { priority = -10 }
+"^(gdm|gnome-shell|Xorg|sway)" = { priority = -10 }
 
 # Compiler tasks
-"^(make|cargo|rustc|rls|cicc|gcc)" = { priority = 20, policy = "idle" }
+"^(make|cargo|rustc|rls|cicc|gcc|git)" = { priority = 20, policy = "idle" }
 
 # Non-critical background services
 "^(tracker|system76-|io.elementary.appcenter)" = { priority = 20, policy = "idle" }
