@@ -5,7 +5,7 @@ avahi = { by = "owner", priority = 20 }
 gdm = { by = "owner", priority = -10 }
 
 # Desktop applications
-"^(atom|code|firefox|mpv|chromium|chrome)" = { priority = -5 }
+"^(atom|code|firefox|mpv|chromium|chrome|joplin)" = { priority = -5 }
 
 # Desktop-critical services
 "^(gdm|gnome-shell|Xorg|sway)" = { priority = -10 }
