@@ -8,4 +8,4 @@ edition = "2018"
 [dependencies]
 errno = "0.2.5"
 libc = "0.2.76"
-bitvec = "0.17.4"
+bitvec = "0.18.1"
