@@ -5,5 +5,5 @@ authors = ["Michael Aaron Murphy <mmstick@pm.me>"]
 edition = "2018"
 
 [dependencies]
-procfs = "0.8.0"
+procfs = "0.8.1"
 libc = "0.2.76"
