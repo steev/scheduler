@@ -18,7 +18,7 @@ indexmap = { version = "1.6.0", features = [ "serde-1" ]}
 libc = "0.2.79"
 pidwatcher = { path = "pidwatcher" }
 scheduler = { path = "scheduler" }
-regex = "1.3.7"
+regex = "1.4.0"
 serde = "1.0.116"
 serde_derive = "1.0.116"
 toml = "0.5.7"
