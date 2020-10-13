@@ -16,7 +16,7 @@ pub trait Scheduling: Copy + Into<libc::pid_t> {
         let mut set = bitvec![Lsb0, c_ulong; 0; 2048];
 
         let result = unsafe {
-            let slice: &mut [c_ulong] = set.as_mut();
+            let slice: &mut bitvec::prelude::BitSlice<bitvec::order::Lsb0, u64> = set.as_mut();
             libc::syscall(
                 libc::SYS_sched_getaffinity,
                 (*self).into(),
