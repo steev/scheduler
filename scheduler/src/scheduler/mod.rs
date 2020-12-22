@@ -21,7 +21,7 @@ pub trait Scheduling: Copy + Into<libc::pid_t> {
                 libc::SYS_sched_getaffinity,
                 (*self).into(),
                 mem::size_of::<c_ulong>(),
-                slice.as_mut_ptr(),
+                slice.as_mut_bitptr(),
             )
         };
 
